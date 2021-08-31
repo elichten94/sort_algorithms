@@ -40,45 +40,84 @@
  *        ... and left[i+2] < right[j]
  *        ... until left[i+n] > right[j]
  *        push left.slice(i, n) to the sorted array
+ *
+ *
+ * DEBUGGING:
+ *
+ * if we finish appending one array,
+ *   we should append the rest of other before quitting
+ *
+ * STRATEGY 2: POINTER LOOP
+ *
+ * Instead of a nested for loop,
+ * lets try a while loop
+ * we only advance left++ or right++ if we push from left or right!
+ *
+ * if we push from left:
+ *  we should move the left pointer to the next element
+ *
+ * if we push from right:
+ *  we should move the right pointer to the next element
+ *
+ * while the sorted array's length is less than the combined lengths of L and R:
+ * (or while the left pointer is not at leftLength and the right pointer is not at rightLength):
+ *    assess which is greater: leftElem or rightElem?
+ *    if left is greater:
+ *      push current left to the sorted array
+ *      advance the left pointer to the next index
+ *    otherwise:
+ *      push current right to array
+ *      advance the right pointer to the next index
+ *
+ *    if one of the pointers is now past the end of their array:
+ *      we should eat up the rest of the other array from other pointer's position to end
+ *      (update that pointer so the loop stops if using the second boolean expr above)
+ *
+ *
+ *
+ *
  */
 
 var merge = function(leftArray, rightArray) {
-  // accumulator []
   var sortedArray = [];
-  // iterate the left array
   var leftLength = leftArray.length;
   var rightLength = rightArray.length;
   var currentLeft, currentRight, leftIndex, rightIndex;
   var rightIndexWas = 0;
 
-  for (leftIndex = 0; leftIndex < leftLength, leftIndex++) {
-    if (rightIndexWas === rightLength - 1) {
-      sortedArray.push(leftArray.slice(leftIndex, leftLength))
-      break;
-    }
+  for (leftIndex = 0; leftIndex < leftLength; leftIndex++) {
+    // if (rightIndexWas === rightLength - 1) {
+    //   sortedArray.push(leftArray.slice(leftIndex, leftLength));
+    //   sortedArray = sortedArray.flat();
+    //   break;
+    // }
     currentLeft = leftArray[leftIndex];
 
     for (rightIndex = rightIndexWas; rightIndex < rightLength; rightIndex++) {
       currentRight = rightArray[rightIndex];
-      if (currentLeft < currentRight) {
+      if (currentLeft <= currentRight) {
         sortedArray.push(currentLeft);
         rightIndexWas = rightIndex;
+        // allows us to move to next left item
         break;
       } else {
         sortedArray.push(currentRight);
+        rightIndexWas = rightIndex;
       }
     }
 
-    if (leftIndex === leftLength - 1) {
-      // get the remaining part of the right
-      // append it
-      sortedArray.push(rightArray.slice(rightIndexWas, rightLength));
-    }
+    // if (leftIndex === leftLength - 1) {
+    //   // get the remaining part of the right
+    //   sortedArray.push(rightArray.slice(rightIndex, rightLength));
+    //   sortedArray = sortedArray.flat();
+    // }
 
   }
 
   return sortedArray;
 };
+
+
 
 // TESTS:
 /**
@@ -143,8 +182,8 @@ var testMerge = function(testCases) {
     actualLength = result.length;
 
     console.log('Test ' + testNumber + ' result: ', result);
-    console.log('Test ' + testNumber + ' is ' + isSorted(currentPair));
-    cosnole.log('expected length: ', expectedLength);
+    console.log('Test ' + testNumber + ' is ' + isSorted(result));
+    console.log('expected length: ', expectedLength);
     console.log('actual length: ', actualLength);
     console.log('============================');
   }
