@@ -1,11 +1,6 @@
-
-
-var sort = function(array) {
-
-};
-
-/*
- * MERGE FUNCTION:
+// MERGE FUNCTION:
+/**
+ *
  *
  * In: Two sorted arrays
  * Out: One sorted array
@@ -33,13 +28,59 @@ var sort = function(array) {
  *    NOTE: One element in array A CAN get compared all of B's unchecked elements and vise-versa
  *
  *  If we are at the end of array A, we can safely push the remaining elements to be checked in array B
+ *
+ *  TO HELP RUNTIME:
+ *    When can we push multiple elements at a time?
+ *    any elements in array B that are less than first element of array A
+ *      and vice versa
+ *    Try this with the paper tiles, see what happens later on in the array:
+ *      Can we continue the process all the way to the end
+ *      if left[i] < right[j]
+ *        ... and left[i+1] < right[j]
+ *        ... and left[i+2] < right[j]
+ *        ... until left[i+n] > right[j]
+ *        push left.slice(i, n) to the sorted array
  */
 
-var merge = function(left, right) {
+var merge = function(leftArray, rightArray) {
+  // accumulator []
+  var sortedArray = [];
+  // iterate the left array
+  var leftLength = leftArray.length;
+  var rightLength = rightArray.length;
+  var currentLeft, currentRight, leftIndex, rightIndex;
+  var rightIndexWas = 0;
 
+  for (leftIndex = 0; leftIndex < leftLength, leftIndex++) {
+    if (rightIndexWas === rightLength - 1) {
+      sortedArray.push(leftArray.slice(leftIndex, leftLength))
+      break;
+    }
+    currentLeft = leftArray[leftIndex];
+
+    for (rightIndex = rightIndexWas; rightIndex < rightLength; rightIndex++) {
+      currentRight = rightArray[rightIndex];
+      if (currentLeft < currentRight) {
+        sortedArray.push(currentLeft);
+        rightIndexWas = rightIndex;
+        break;
+      } else {
+        sortedArray.push(currentRight);
+      }
+    }
+
+    if (leftIndex === leftLength - 1) {
+      // get the remaining part of the right
+      // append it
+      sortedArray.push(rightArray.slice(rightIndexWas, rightLength));
+    }
+
+  }
+
+  return sortedArray;
 };
 
-// tests:
+// TESTS:
 /**
  * Arrays of equal size:
  *    Arrays with inconsistent intervals
@@ -55,11 +96,9 @@ var merge = function(left, right) {
  *      ^vice versa
  *    Arrays with repeated numbers
  *    Arrays with the same elements at each index
- *
- *
  */
 
-var tests = [
+var testsForMerge = [
   // equal sized
   [[2, 4, 5, 9], [1, 3, 7, 8]],
   [[1, 3, 5, 7], [2, 4, 6, 8]],
@@ -84,27 +123,38 @@ var isSorted = function(array) {
       return arr[i-1] <= current
     }
   });
-  return answer;
+  if (answer) {
+    return 'sorted!';
+  } else {
+    return 'not yet sorted';
+  }
 };
 
-var testMerge(testCases) {
+var testMerge = function(testCases) {
   var length = testCases.length;
-  var currentPair, result, testNumber
+  var currentPair, left, right, result, testNumber, expectedLength, actualLength;
   for (var i = 0; i < length; i++) {
-    currentPair = testCases[i]
-    result = merge(currentPair[0], currentPair[1])
-    console.log(result);
     testNumber = i + 1;
-    console.log('test ' + testNumber + isSorted(currentPair));
+    currentPair = testCases[i]
+    left = currentPair[0];
+    right = currentPair[1];
+    result = merge(left, right);
+    expectedLength = left.length + right.length;
+    actualLength = result.length;
+
+    console.log('Test ' + testNumber + ' result: ', result);
+    console.log('Test ' + testNumber + ' is ' + isSorted(currentPair));
+    cosnole.log('expected length: ', expectedLength);
+    console.log('actual length: ', actualLength);
+    console.log('============================');
   }
-}(tests);
+}(testsForMerge);
 
 
-
-
- /*
+// SORT FUNCTION:
+ /**
  *
- * SORT FUNCTION:
+ *
  *
  * In: An array
  * Out: A sorted array
@@ -123,3 +173,7 @@ var testMerge(testCases) {
  *    We sort the right half
  *    We then merge them
  */
+
+var sort = function(array) {
+
+};
