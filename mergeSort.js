@@ -85,7 +85,7 @@ var merge = function(leftArray, rightArray) {
   var rightLength = rightArray.length;
   var leftItem, rightItem, endSlice;
 
-  while (leftPointer < leftLength || rightPointer < rightLength) {
+  while (true) {
     leftItem = leftArray[leftPointer];
     rightItem = rightArray[rightPointer];
     // compare elements at left pointer vs. right pointer
@@ -102,16 +102,16 @@ var merge = function(leftArray, rightArray) {
     // if either pointer is at their respective 'length':
     if (leftPointer === leftLength) {
       endSlice = rightArray.slice(rightPointer, rightLength);
-      mergedArray.concat(endSlice);
+      mergedArray = mergedArray.concat(endSlice);
       break;
     } else if (rightPointer === rightLength) {
       // eat up the rest of the left array from pointer up to length
       endSlice = leftArray.slice(leftPointer, leftLength);
-      mergedArray.concat(endSlice);
+      mergedArray = mergedArray.concat(endSlice);
       break;
     }
   }
-  return sortedArray;
+  return mergedArray;
 };
 
 
@@ -179,10 +179,15 @@ var testsForMerge = [
   // equal sized
   [[2, 4, 5, 9], [1, 3, 7, 8]],
   [[1, 3, 5, 7], [2, 4, 6, 8]],
+  [[-2, -1, 0, 5], [-4, -3, -1, 5]],
   [[3, 5, 6, 9], [12, 14, 15, 19]],
   [[20, 21, 24, 25], [0, 4, 6, 7]],
   [[3, 3, 4, 5], [1, 2, 2, 29]],
   [[1, 3, 4, 8], [1, 3, 4, 8]],
+  [[3], [5]],
+  [[1], [0]],
+  [[3], [-5]],
+  [['a', 'b', 'c'], ['d', 'e', 'f']],
   // lopsided
   [[2, 4, 5], [1, 3, 7, 8]],
   [[1, 3, 5, 7], [2, 4, 6]],
@@ -190,6 +195,12 @@ var testsForMerge = [
   [[20, 21, 24], [0, 4, 6, 7]],
   [[3, 3, 4, 5], [1, 2, 2]],
   [[1, 3, 4], [1, 3, 4, 8]],
+  [[2, 4], [1]],
+  [[6], [7, 9]],
+  [[5], [3, 4]],
+  [[-2], [-7, -1]],
+  [[-4, 0], [2]],
+  [[-4, 0], [-2]]
 ];
 
 var isSorted = function(array) {
@@ -208,23 +219,32 @@ var isSorted = function(array) {
 };
 
 var testMerge = function(testCases) {
-  var length = testCases.length;
+
   var currentPair, left, right, result, testNumber, expectedLength, actualLength;
-  for (var i = 0; i < length; i++) {
+  var testResult = testCases.every(function(current, i, arr) {
     testNumber = i + 1;
-    currentPair = testCases[i]
-    left = currentPair[0];
-    right = currentPair[1];
+    left = current[0];
+    right = current[1];
     result = merge(left, right);
     expectedLength = left.length + right.length;
     actualLength = result.length;
+    if (isSorted(result) && expectedLength === actualLength) {
+      return true
+    } else {
+      console.log('Bug at test ' + testNumber + ':');
+      console.log('expected length: ', expectedLength);
+      console.log('got length of: ', actualLength);
+      console.log('result of merging ' + left + ' and ' + right + ' :');
+      console.log(result);
+    }
+  });
 
-    console.log('Test ' + testNumber + ' result: ', result);
-    console.log('Test ' + testNumber + ' is ' + isSorted(result));
-    console.log('expected length: ', expectedLength);
-    console.log('actual length: ', actualLength);
-    console.log('============================');
+  if (testResult) {
+    console.log('Yag shamesh, great success!');
+  } else {
+    console.log('Ur close!');
   }
+
 }(testsForMerge);
 
 
