@@ -78,35 +78,41 @@
 
 
 var merge = function(leftArray, rightArray) {
-  // accumulator []
   var mergedArray = [];
-  // left pointer
   var leftPointer = 0;
-  // right pointer
   var rightPointer = 0;
-  // get lengths
   var leftLength = leftArray.length;
   var rightLength = rightArray.length;
-  // while BOTH pointers are less than length
-  while (leftPointer < leftLength || )
+  var leftItem, rightItem, endSlice;
+
+  while (leftPointer < leftLength || rightPointer < rightLength) {
+    leftItem = leftArray[leftPointer];
+    rightItem = rightArray[rightPointer];
     // compare elements at left pointer vs. right pointer
     // if left <= right:
-      // append left to accumulator
-      // left pointer++
+    if (leftItem <= rightItem) {
+      mergedArray.push(leftItem);
+      leftPointer++;
+    } else {
     // otherwise (right < left):
-      // append right to accumulator
-      // right pointer ++
+      mergedArray.push(rightItem);
+      rightPointer++;
+    }
 
     // if either pointer is at their respective 'length':
-      // eat up the rest of the other array from pointer up to length
-      // break
-
-  // after loop, return the accumulator
-
-
-
-
-}
+    if (leftPointer === leftLength) {
+      endSlice = rightArray.slice(rightPointer, rightLength);
+      mergedArray.concat(endSlice);
+      break;
+    } else if (rightPointer === rightLength) {
+      // eat up the rest of the left array from pointer up to length
+      endSlice = leftArray.slice(leftPointer, leftLength);
+      mergedArray.concat(endSlice);
+      break;
+    }
+  }
+  return sortedArray;
+};
 
 
 // old solution:
