@@ -97,3 +97,6 @@ var sort = function(array) {
     return result;
   }
 };
+
+exports.merge = merge;
+exports.sort = sort;

@@ -54,23 +54,28 @@ var isSorted = function(array) {
   return answer;
 };
 
+// borrow merge()
+var ms = require('./mergeSort.js');
+
 var testMerge = function(testCases) {
   var currentPair, left, right, result, testNumber, expectedLength, actualLength;
   var testResult = testCases.every(function(current, i, arr) {
     testNumber = i + 1;
     left = current[0];
     right = current[1];
-    result = merge(left, right);
+    result = ms.merge(left, right);
     expectedLength = left.length + right.length;
     actualLength = result.length;
     if (isSorted(result) && expectedLength === actualLength) {
-      return true
+      return true;
     } else {
+      console.log('====================================');
       console.log('Bug at test ' + testNumber + ':');
       console.log('expected length: ', expectedLength);
       console.log('got length of: ', actualLength);
       console.log('result of merging ' + left + ' and ' + right + ' :');
       console.log(result);
+      console.log('====================================');
       return false;
     }
   });
@@ -80,3 +85,5 @@ var testMerge = function(testCases) {
   }
 
 }(testsForMerge);
+
+exports.isSorted = isSorted;
