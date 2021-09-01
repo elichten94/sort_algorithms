@@ -28,7 +28,6 @@
   [[3], [5]],
   [[1], [0]],
   [[3], [-5]],
-  [['a', 'b', 'c'], ['d', 'e', 'f']],
   // lopsided
   [[2, 4, 5], [1, 3, 7, 8]],
   [[1, 3, 5, 7], [2, 4, 6]],
@@ -52,11 +51,7 @@ var isSorted = function(array) {
       return arr[i-1] <= current
     }
   });
-  if (answer) {
-    return 'sorted!';
-  } else {
-    return 'not yet sorted';
-  }
+  return answer;
 };
 
 var testMerge = function(testCases) {
@@ -76,13 +71,12 @@ var testMerge = function(testCases) {
       console.log('got length of: ', actualLength);
       console.log('result of merging ' + left + ' and ' + right + ' :');
       console.log(result);
+      return false;
     }
   });
 
   if (testResult) {
-    console.log('Yag shamesh, great success!');
-  } else {
-    console.log('Ur close!');
+    console.log('Success - all tests passed');
   }
 
 }(testsForMerge);
