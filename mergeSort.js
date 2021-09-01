@@ -47,6 +47,7 @@
  * if we finish appending one array,
  *   we should append the rest of other before quitting
  *
+ *
  * STRATEGY 2: POINTER LOOP
  *
  * Instead of a nested for loop,
@@ -73,49 +74,80 @@
  *      we should eat up the rest of the other array from other pointer's position to end
  *      (update that pointer so the loop stops if using the second boolean expr above)
  *
- *
- *
- *
  */
 
+
 var merge = function(leftArray, rightArray) {
-  var sortedArray = [];
+  // accumulator []
+  var mergedArray = [];
+  // left pointer
+  var leftPointer = 0;
+  // right pointer
+  var rightPointer = 0;
+  // get lengths
   var leftLength = leftArray.length;
   var rightLength = rightArray.length;
-  var currentLeft, currentRight, leftIndex, rightIndex;
-  var rightIndexWas = 0;
+  // while BOTH pointers are less than length
+  while (leftPointer < leftLength || )
+    // compare elements at left pointer vs. right pointer
+    // if left <= right:
+      // append left to accumulator
+      // left pointer++
+    // otherwise (right < left):
+      // append right to accumulator
+      // right pointer ++
 
-  for (leftIndex = 0; leftIndex < leftLength; leftIndex++) {
-    // if (rightIndexWas === rightLength - 1) {
-    //   sortedArray.push(leftArray.slice(leftIndex, leftLength));
-    //   sortedArray = sortedArray.flat();
-    //   break;
-    // }
-    currentLeft = leftArray[leftIndex];
+    // if either pointer is at their respective 'length':
+      // eat up the rest of the other array from pointer up to length
+      // break
 
-    for (rightIndex = rightIndexWas; rightIndex < rightLength; rightIndex++) {
-      currentRight = rightArray[rightIndex];
-      if (currentLeft <= currentRight) {
-        sortedArray.push(currentLeft);
-        rightIndexWas = rightIndex;
-        // allows us to move to next left item
-        break;
-      } else {
-        sortedArray.push(currentRight);
-        rightIndexWas = rightIndex;
-      }
-    }
+  // after loop, return the accumulator
 
-    // if (leftIndex === leftLength - 1) {
-    //   // get the remaining part of the right
-    //   sortedArray.push(rightArray.slice(rightIndex, rightLength));
-    //   sortedArray = sortedArray.flat();
-    // }
 
-  }
 
-  return sortedArray;
-};
+
+}
+
+
+// old solution:
+// var merge = function(leftArray, rightArray) {
+//   var sortedArray = [];
+//   var leftLength = leftArray.length;
+//   var rightLength = rightArray.length;
+//   var currentLeft, currentRight, leftIndex, rightIndex;
+//   var rightIndexWas = 0;
+
+//   for (leftIndex = 0; leftIndex < leftLength; leftIndex++) {
+//     // if (rightIndexWas === rightLength - 1) {
+//     //   sortedArray.push(leftArray.slice(leftIndex, leftLength));
+//     //   sortedArray = sortedArray.flat();
+//     //   break;
+//     // }
+//     currentLeft = leftArray[leftIndex];
+
+//     for (rightIndex = rightIndexWas; rightIndex < rightLength; rightIndex++) {
+//       currentRight = rightArray[rightIndex];
+//       if (currentLeft <= currentRight) {
+//         sortedArray.push(currentLeft);
+//         rightIndexWas = rightIndex;
+//         // allows us to move to next left item
+//         break;
+//       } else {
+//         sortedArray.push(currentRight);
+//         rightIndexWas = rightIndex;
+//       }
+//     }
+
+//     // if (leftIndex === leftLength - 1) {
+//     //   // get the remaining part of the right
+//     //   sortedArray.push(rightArray.slice(rightIndex, rightLength));
+//     //   sortedArray = sortedArray.flat();
+//     // }
+
+//   }
+
+//   return sortedArray;
+// };
 
 
 
