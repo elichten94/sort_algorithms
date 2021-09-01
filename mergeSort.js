@@ -88,164 +88,27 @@ var merge = function(leftArray, rightArray) {
   while (true) {
     leftItem = leftArray[leftPointer];
     rightItem = rightArray[rightPointer];
-    // compare elements at left pointer vs. right pointer
-    // if left <= right:
     if (leftItem <= rightItem) {
       mergedArray.push(leftItem);
       leftPointer++;
     } else {
-    // otherwise (right < left):
       mergedArray.push(rightItem);
       rightPointer++;
     }
 
-    // if either pointer is at their respective 'length':
     if (leftPointer === leftLength) {
       endSlice = rightArray.slice(rightPointer, rightLength);
       mergedArray = mergedArray.concat(endSlice);
       break;
     } else if (rightPointer === rightLength) {
-      // eat up the rest of the left array from pointer up to length
       endSlice = leftArray.slice(leftPointer, leftLength);
       mergedArray = mergedArray.concat(endSlice);
       break;
     }
   }
+
   return mergedArray;
 };
-
-
-// old solution:
-// var merge = function(leftArray, rightArray) {
-//   var sortedArray = [];
-//   var leftLength = leftArray.length;
-//   var rightLength = rightArray.length;
-//   var currentLeft, currentRight, leftIndex, rightIndex;
-//   var rightIndexWas = 0;
-
-//   for (leftIndex = 0; leftIndex < leftLength; leftIndex++) {
-//     // if (rightIndexWas === rightLength - 1) {
-//     //   sortedArray.push(leftArray.slice(leftIndex, leftLength));
-//     //   sortedArray = sortedArray.flat();
-//     //   break;
-//     // }
-//     currentLeft = leftArray[leftIndex];
-
-//     for (rightIndex = rightIndexWas; rightIndex < rightLength; rightIndex++) {
-//       currentRight = rightArray[rightIndex];
-//       if (currentLeft <= currentRight) {
-//         sortedArray.push(currentLeft);
-//         rightIndexWas = rightIndex;
-//         // allows us to move to next left item
-//         break;
-//       } else {
-//         sortedArray.push(currentRight);
-//         rightIndexWas = rightIndex;
-//       }
-//     }
-
-//     // if (leftIndex === leftLength - 1) {
-//     //   // get the remaining part of the right
-//     //   sortedArray.push(rightArray.slice(rightIndex, rightLength));
-//     //   sortedArray = sortedArray.flat();
-//     // }
-
-//   }
-
-//   return sortedArray;
-// };
-
-
-
-// TESTS:
-/**
- * Arrays of equal size:
- *    Arrays with inconsistent intervals
- *    Arrays with consistent intervals
- *    Array 1's elems are all bigger than Array 2's
- *      ^vice versa
- *    Arrays with repeated numbers
- *    Arrays with the same elements at each index
- * Arrays of +/- 1 diff length:
- *    Arrays with inconsistent intervals
- *    Arrays with consistent intervals
- *    Array 1's elems are all bigger than Array 2's
- *      ^vice versa
- *    Arrays with repeated numbers
- *    Arrays with the same elements at each index
- */
-
-var testsForMerge = [
-  // equal sized
-  [[2, 4, 5, 9], [1, 3, 7, 8]],
-  [[1, 3, 5, 7], [2, 4, 6, 8]],
-  [[-2, -1, 0, 5], [-4, -3, -1, 5]],
-  [[3, 5, 6, 9], [12, 14, 15, 19]],
-  [[20, 21, 24, 25], [0, 4, 6, 7]],
-  [[3, 3, 4, 5], [1, 2, 2, 29]],
-  [[1, 3, 4, 8], [1, 3, 4, 8]],
-  [[3], [5]],
-  [[1], [0]],
-  [[3], [-5]],
-  [['a', 'b', 'c'], ['d', 'e', 'f']],
-  // lopsided
-  [[2, 4, 5], [1, 3, 7, 8]],
-  [[1, 3, 5, 7], [2, 4, 6]],
-  [[3, 5, 6, 9], [12, 14, 15]],
-  [[20, 21, 24], [0, 4, 6, 7]],
-  [[3, 3, 4, 5], [1, 2, 2]],
-  [[1, 3, 4], [1, 3, 4, 8]],
-  [[2, 4], [1]],
-  [[6], [7, 9]],
-  [[5], [3, 4]],
-  [[-2], [-7, -1]],
-  [[-4, 0], [2]],
-  [[-4, 0], [-2]]
-];
-
-var isSorted = function(array) {
-  var answer = array.every(function(current, i, arr) {
-    if (i === 0) {
-      return true;
-    } else {
-      return arr[i-1] <= current
-    }
-  });
-  if (answer) {
-    return 'sorted!';
-  } else {
-    return 'not yet sorted';
-  }
-};
-
-var testMerge = function(testCases) {
-
-  var currentPair, left, right, result, testNumber, expectedLength, actualLength;
-  var testResult = testCases.every(function(current, i, arr) {
-    testNumber = i + 1;
-    left = current[0];
-    right = current[1];
-    result = merge(left, right);
-    expectedLength = left.length + right.length;
-    actualLength = result.length;
-    if (isSorted(result) && expectedLength === actualLength) {
-      return true
-    } else {
-      console.log('Bug at test ' + testNumber + ':');
-      console.log('expected length: ', expectedLength);
-      console.log('got length of: ', actualLength);
-      console.log('result of merging ' + left + ' and ' + right + ' :');
-      console.log(result);
-    }
-  });
-
-  if (testResult) {
-    console.log('Yag shamesh, great success!');
-  } else {
-    console.log('Ur close!');
-  }
-
-}(testsForMerge);
 
 
 // SORT FUNCTION:
@@ -268,9 +131,48 @@ var testMerge = function(testCases) {
  * We sort the array by splitting it into two.
  *    We sort the left half
  *    We sort the right half
- *    We then merge them
+ *    We then merge the sorted halves
+ *
+ * When splitting an array in two:
+ * an even number of elements:
+ *  middle gets length / 2
+ * an odd number of elements:
+ *  middle gets length / 2 rounded down
+ *
+ *
+
+ * if the array of length 1:
+ *  that array is by definition sorted,
+ *
+ * otherwise:
+ *  get the middle
+ *  sort the left half
+ *  sort the right half
+ *  merge them
+ *
  */
 
 var sort = function(array) {
-
+  var length = array.length;
+  var middle;
+  if (!length || length === 1) {
+    return array;
+  } else {
+    if (length % 2 === 0) {
+      // right-middle
+      middle = length / 2;
+    } else {
+      // true middle
+      middle = Math.floor(length / 2);
+    }
+    var left = array.slice(0, middle);
+    var right = array.slice(middle, length);
+    var result = merge(sort(left), sort(right));
+    return result;
+  }
 };
+
+
+var testValue = [3, 1, 4, 5, 2, 1, 9, 8, 6];
+var result = sort(testValue);
+console.log(result);
