@@ -1,30 +1,5 @@
 // MERGE FUNCTION:
 /**
- *
- * POINTER LOOP:
- * Instead of a nested for-loop,
- * try a while-loop
- * we only advance leftPointer++ or rightPointer++ if we push from left or right
- *
- * if we push from left:
- *    we should move the left pointer to the next element
- *
- * if we push from right:
- *    we should move the right pointer to the next element
- *
- * repeat the following:
- *    if left is greater:
- *      push current left item to the sorted array
- *      advance the left pointer to the next index
- *    otherwise:
- *      push current right item to array
- *      advance the right pointer to the next index
- *
- *    if one of the pointers is now past the end of their array:
- *      we should eat up the rest of the other array from other pointer's position to length
- *      break the loop
- *
- *
  * RUNTIME BRAINSTORMING:
  *    When can we push multiple elements at a time?
  *    any elements in rightArray that are less than first element of leftArray and vice versa
@@ -55,10 +30,11 @@ var merge = function(leftArray, rightArray) {
   while (true) {
     leftItem = leftArray[leftPointer];
     rightItem = rightArray[rightPointer];
-    if (leftItem <= rightItem) {
+
+    if (leftItem <= rightItem || rightItem === undefined) {
       mergedArray.push(leftItem);
       leftPointer++;
-    } else {
+    } else if (leftItem > rightItem || leftItem === undefined) {
       mergedArray.push(rightItem);
       rightPointer++;
     }
