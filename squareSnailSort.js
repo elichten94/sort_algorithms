@@ -77,18 +77,4 @@ isCorrectInput = function(arrayOfArrays) {
     }
 
     return remainingSafetyChecks;
-}
-
-
-var tests = [
-    [[1, 2], [3, 5]],
-    [[1, 2, 5], [3, 5, 7], [1, -2, -3]],
-    [[1, 3, 5, 7], [2, 3, 6, 8], [4, -1, 3, -5], [3, 2, 1, 0]]
-];
-
-var testNumber;
-tests.forEach(function(current, index) {
-    testNumber = index + 1;
-    console.log('test ' + testNumber + ':');
-    console.log(squareSnailSort(current));
-});
+};
