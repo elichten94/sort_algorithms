@@ -1,37 +1,5 @@
-// SORT TESTS:
-/**
- *
- * Empty array
- * Array with one element
- * Array of all same numbers
- * Array with one unique value
- * Array with negatives
- * Array with decimals
- * Array that's already sorted
- * Array in reverse-sorted order
- * ^ passed
- *
- *
- * LATER:
- *
- * Sortable values:
-  * Array of strings
-  * Array of bools? not sure if should be sortable
- *
- * Should throw errors for:
-  * no argument
-  * more than one argument
-  * non-array input
-  * Unsortable values:
-    * Array of falsy values
-    * Array of mixed values
-    * Array of functions
-  *
- * Other - see what outputs:
-  * Array of arrays
-  * Array of objects
- */
-
+var ms = require('./mergeSort.js');
+var tests = require('./mergeTests');
 
 var sortTests = [
   [],
@@ -54,13 +22,6 @@ var sortTests = [
   [67, 45.73, 31.09, 31, 30.999999],
   [53, 52, 51, 50]
 ];
-
-
-
-// borrow merge() and sort()
-var ms = require('./mergeSort.js');
-// borrow isSorted()
-var tests = require('./mergeTests');
 
 
 var testSort = function(testCases) {
