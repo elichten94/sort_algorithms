@@ -1,24 +1,3 @@
-// MERGE FUNCTION:
-/**
- * RUNTIME BRAINSTORMING:
- *    When can we push multiple elements at a time?
- *    any elements in rightArray that are less than first element of leftArray and vice versa
- *    Try this with the paper tiles, see what happens later on in the array:
- *      Can we continue the process all the way to the end?
- *
- *    if left[i] < right[j]
- *        ... and left[i+1] < right[j]
- *        ... and left[i+2] < right[j]
- *        ... until left[i+n] > right[j]
- *        push a slice of i up to n to the sorted array
- *
- *  -- or the other way around --
- *      if left[len-1] < right[0]
- *      ... otherwise if left[len-2] < right[0];
- *      ... otherwise if left[len-3] < right[0];
- */
-
-
 var merge = function(leftArray, rightArray) {
   var mergedArray = [];
   var leftPointer = 0;
@@ -61,10 +40,8 @@ var sort = function(array) {
     return array;
   } else {
     if (length % 2 === 0) {
-      // right-middle
       middle = length / 2;
     } else {
-      // true middle
       middle = Math.floor(length / 2);
     }
     var left = array.slice(0, middle);
