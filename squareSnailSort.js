@@ -1,6 +1,3 @@
-/* Sorts a square 2-dimentional array (N x N) in clockwise snail order */
-
-
 var squareSnailSort = function(array) {
 
     if (!isCorrectInput(array)) {
@@ -18,26 +15,21 @@ var squareSnailSort = function(array) {
     var snailResult = [];
 
     for (var i = 0; totalElems < numBlocks; i++) {
-
-        // top left - right
         for (var a = 0 + i; a < numColumns - i; a++) {
             snailResult.push(array[i][a]);
             totalElems++;
         }
-
-        // top right - bottom
+        
         for (var b = 1 + i; b < numRows - i; b++) {
             snailResult.push(array[b][numColumns - 1 - i]);
             totalElems++;
         }
-
-        // bottom right - left
+        
         for (var c = numColumns - 2 - i; c > (i - 1); c--) {
             snailResult.push(array[numRows - 1 - i][c]);
             totalElems++;
         }
-
-        // bottom left - top
+        
         for (var d = numRows - 2 - i; d > i; d--) {
             snailResult.push(array[d][i]);
             totalElems++;
