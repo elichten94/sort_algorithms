@@ -1,23 +1,6 @@
-// MERGE TESTS:
-/**
- * Arrays of equal size:
- *    Arrays with inconsistent intervals
- *    Arrays with consistent intervals
- *    Array 1's elems are all bigger than Array 2's
- *      ^vice versa
- *    Arrays with repeated numbers
- *    Arrays with the same elements at each index
- * Arrays of +/- 1 diff length:
- *    Arrays with inconsistent intervals
- *    Arrays with consistent intervals
- *    Array 1's elems are all bigger than Array 2's
- *      ^vice versa
- *    Arrays with repeated numbers
- *    Arrays with the same elements at each index
- */
+var ms = require('./mergeSort.js');
 
- var testsForMerge = [
-  // equal sized
+var testsForMerge = [
   [[2, 4, 5, 9], [1, 3, 7, 8]],
   [[1, 3, 5, 7], [2, 4, 6, 8]],
   [[-2, -1, 0, 5], [-4, -3, -1, 5]],
@@ -28,7 +11,6 @@
   [[3], [5]],
   [[1], [0]],
   [[3], [-5]],
-  // lopsided
   [[2, 4, 5], [1, 3, 7, 8]],
   [[1, 3, 5, 7], [2, 4, 6]],
   [[3, 5, 6, 9], [12, 14, 15]],
@@ -54,9 +36,6 @@ var isSorted = function(array) {
   return answer;
 };
 
-// borrow merge()
-var ms = require('./mergeSort.js');
-
 var testMerge = function(testCases) {
   var currentPair, left, right, result, testNumber, expectedLength, actualLength;
   var testResult = testCases.every(function(current, i, arr) {
@@ -81,7 +60,7 @@ var testMerge = function(testCases) {
   });
 
   if (testResult) {
-    console.log('Success - all tests passed');
+    console.log('All tests passed');
   }
 
 }(testsForMerge);
